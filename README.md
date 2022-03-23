@@ -21,7 +21,7 @@ Write a code that:
 - [GitHub](https://github.com/mrdoob/three.js)
 # Instructions
 
-1. Clone the repository.
+1. Fork the repository.
 
 2. Create a seperate file for the assignment.
 
