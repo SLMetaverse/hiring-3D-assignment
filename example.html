@@ -36,7 +36,7 @@
               import * as THREE from 'three';
 
               import * as CameraUtils from 'https://unpkg.com/three/examples/jsm/utils/CameraUtils.js';
-              import {OrbitControls} from 'https://unpkg.com/three/examples/jsm/controls/OrbitControls.js';
+              import {OrbitControls} from 'https://unpkg.com/three/examples/jsm/controls/FirstPersonCamera.js';
 
               let camera, scene, renderer;
 
@@ -208,25 +208,25 @@
 
                 requestAnimationFrame(animate);
 
-              // // move the bouncing sphere(s)
-              // const timerOne = Date.now() * 0.01;
-              // const timerTwo = timerOne + Math.PI * 10.0;
+              // move the bouncing sphere(s)
+              const timerOne = Date.now() * 0.01;
+              const timerTwo = timerOne + Math.PI * 10.0;
 
-              // smallSphereOne.position.set(
-              // Math.cos( timerOne * 0.1 ) * 30,
-              // Math.abs( Math.cos( timerOne * 0.2 ) ) * 20 + 5,
-              // Math.sin( timerOne * 0.1 ) * 30
-              // );
-              // smallSphereOne.rotation.y = ( Math.PI / 2 ) - timerOne * 0.1;
-              // smallSphereOne.rotation.z = timerOne * 0.8;
+              smallSphereOne.position.set(
+              Math.cos( timerOne * 0.1 ) * 30,
+              Math.abs( Math.cos( timerOne * 0.2 ) ) * 20 + 5,
+              Math.sin( timerOne * 0.1 ) * 30
+              );
+              smallSphereOne.rotation.y = ( Math.PI / 2 ) - timerOne * 0.1;
+              smallSphereOne.rotation.z = timerOne * 0.8;
 
-              // smallSphereTwo.position.set(
-              // Math.cos( timerTwo * 0.1 ) * 30,
-              // Math.abs( Math.cos( timerTwo * 0.2 ) ) * 20 + 5,
-              // Math.sin( timerTwo * 0.1 ) * 30
-              // );
-              // smallSphereTwo.rotation.y = ( Math.PI / 2 ) - timerTwo * 0.1;
-              // smallSphereTwo.rotation.z = timerTwo * 0.8;
+              smallSphereTwo.position.set(
+              Math.cos( timerTwo * 0.1 ) * 30,
+              Math.abs( Math.cos( timerTwo * 0.2 ) ) * 20 + 5,
+              Math.sin( timerTwo * 0.1 ) * 30
+              );
+              smallSphereTwo.rotation.y = ( Math.PI / 2 ) - timerTwo * 0.1;
+              smallSphereTwo.rotation.z = timerTwo * 0.8;
 
               // save the original camera properties
               const currentRenderTarget = renderer.getRenderTarget();

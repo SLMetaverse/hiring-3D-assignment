@@ -1,0 +1,24 @@
+{
+  "name": "hiring-3d-assignment",
+  "version": "1.0.0",
+  "description": "Room Navigation",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aloksbd/hiring-3D-assignment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aloksbd/hiring-3D-assignment/issues"
+  },
+  "homepage": "https://github.com/aloksbd/hiring-3D-assignment#readme",
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.17.7",
+    "jest": "^27.5.1"
+  }
+}
