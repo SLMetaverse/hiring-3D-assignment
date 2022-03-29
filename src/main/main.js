@@ -1,4 +1,7 @@
 import * as THREE from "https://unpkg.com/three/build/three.module.js"
+import Room from "../roomCreator/room.js"
+import { Walls } from "../roomCreator/walls.js"
+import Room3D from "../main/Room3D.js"
 
 let scene, camera, renderer
 
@@ -17,21 +20,18 @@ function makeRenderer() {
 
 function makeCamera() {
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 5000 )
-    camera.position.set( 0, 75, 160 )
+    camera.position.set( 0, 75, 50 )
 }
 
-function addPlane() {
-    const planeGeo = new THREE.PlaneGeometry( 100.1, 100.1 )
-
-    const planeBack = new THREE.Mesh( planeGeo, new THREE.MeshPhongMaterial( {color: 0xff7fff } ) )
-    planeBack.position.z = - 50
-    planeBack.position.y = 50
-    scene.add( planeBack )
+function addRoom() {
+    let room = new Room3D(new Room(0,0,[Walls.LEFT]))
+    scene.add( room.object )
 }
 
 function addLight() {
     const mainLight = new THREE.PointLight( 0xcccccc, 0.7, 250 )
     mainLight.position.y = 60
+    mainLight.position.z = 100
     scene.add( mainLight )
 }
 
@@ -39,7 +39,7 @@ function setup() {
     makeScene()
     makeRenderer()
     makeCamera()
-    addPlane()
+    addRoom()
     addLight()
 }
 
