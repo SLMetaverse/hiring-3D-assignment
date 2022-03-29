@@ -8,8 +8,8 @@ export default class Room3D {
 
         let walls = room.openWalls
 
-        this.#createWall(0xffffff, 0, 100, 0, Math.PI/2, 0)
-        this.#createWall(0xffffff, 0, 0, 0, -Math.PI/2, 0)
+        this.#createWall(0xffffff, 0, 100, 0, Math.PI/2, 0) //ceilling
+        this.#createWall(0xffffff, 0, 0, 0, -Math.PI/2, 0) //floor
         if (!walls.some(e => e === Walls.FRONT)) this.#createWall(0x7f7fff, 0, 50, -50, 0, 0)
         if (!walls.some(e => e === Walls.BACK))  this.#createWall(0xff7fff, 0, 50, 50, 0, 0)
         if (!walls.some(e => e === Walls.RIGHT)) this.#createWall(0x00ff00, 50, 50, 0, 0, -Math.PI/2)
@@ -26,7 +26,7 @@ export default class Room3D {
     }
 
     #createWall(color, x, y, z, rotationX, rotationY) {
-        const planeGeo = new THREE.PlaneGeometry( 100.1, 100.1 )
+        const planeGeo = new THREE.PlaneGeometry( 100, 100 )
 
         const planeTop = new THREE.Mesh( planeGeo, new THREE.MeshPhongMaterial( {color: color } ) )
         planeTop.position.x = x
