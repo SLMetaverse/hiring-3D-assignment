@@ -1,5 +1,5 @@
-import Room from './room'
-import {Walls} from './walls'
+import Room from './room.js'
+import {Walls} from './walls.js'
 
 export default class RoomCreator {
     constructor(grid) {
