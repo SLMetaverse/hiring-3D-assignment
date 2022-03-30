@@ -3,6 +3,7 @@ export default class InputController {
         this.mouseMoveX = 0
         this.mouseMoveY = 0 
         this.setupMouseMoveListener()
+        this.lockPointer()
     }
 
     update() {
@@ -16,5 +17,11 @@ export default class InputController {
             self.mouseMoveX = mouseEvent.movementX
             self.mouseMoveY = mouseEvent.movementY
         }
+    }
+
+    lockPointer() {
+        document.onmousedown = function () {
+            document.body.requestPointerLock();
+        };
     }
 }
