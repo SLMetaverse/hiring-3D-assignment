@@ -1,9 +1,10 @@
 import * as THREE from "https://unpkg.com/three/build/three.module.js"
+import FirstPersonCamera from "../camera/FirstPersonCamera.js"
 import InputController from "../input/inputController.js"
 import Room3D from "../main/Room3D.js"
 import RoomCreator from "../roomCreator/roomCreator.js"
 
-let scene, camera, renderer, inputController
+let scene, camera, renderer, firstPersonCamera
 
 function makeScene() {
     scene = new THREE.Scene()
@@ -22,10 +23,8 @@ function makeCamera() {
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 5000 )
     camera.position.set( 0, 50, 4*100 )
     camera.rotateY( -Math.PI/2 )
-}
 
-function makeInputController() {
-    inputController = new InputController()
+    firstPersonCamera = new FirstPersonCamera(camera)
 }
 
 function addRoom() {
@@ -54,20 +53,15 @@ function setup() {
     makeScene()
     makeRenderer()
     makeCamera()
-    makeInputController()
     addRoom()
     addLight()
 }
 
-function testInput() {
-    console.log(inputController.mouseMoveX, inputController.mouseMoveY, inputController.keyUp, inputController.keyDown)
-}
-
 function animate(time) {
-    testInput()
-    inputController.update()
     requestAnimationFrame(animate)
+    firstPersonCamera.update()
     renderer.render(scene, camera)
+    InputController.update() // update clears the input so call at last
 }
 
 setup()
