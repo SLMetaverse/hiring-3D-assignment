@@ -1,9 +1,10 @@
 import * as THREE from "https://unpkg.com/three/build/three.module.js"
 import {FirstPersonControls} from 'https://unpkg.com/three/examples/jsm/controls/FirstPersonControls.js'
+import InputController from "../input/inputController.js"
 import Room3D from "../main/Room3D.js"
 import RoomCreator from "../roomCreator/roomCreator.js"
 
-let scene, camera, renderer, cameraControl
+let scene, camera, renderer, inputController
 
 function makeScene() {
     scene = new THREE.Scene()
@@ -22,10 +23,10 @@ function makeCamera() {
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 5000 )
     camera.position.set( 0, 50, 4*100 )
     camera.rotateY( -Math.PI/2 )
+}
 
-    cameraControl = new FirstPersonControls(camera, renderer.domElement)
-    cameraControl.lookSpeed = 0.001
-    cameraControl.movementSpeed = 1
+function makeInputController() {
+    inputController = new InputController()
 }
 
 function addRoom() {
@@ -54,13 +55,19 @@ function setup() {
     makeScene()
     makeRenderer()
     makeCamera()
+    makeInputController()
     addRoom()
     addLight()
 }
 
+function testInput() {
+    console.log(inputController.mouseMoveX, inputController.mouseMoveY)
+}
+
 function animate(time) {
+    testInput()
+    inputController.update()
     requestAnimationFrame(animate)
-    cameraControl.update(0.5);
     renderer.render(scene, camera)
 }
 
