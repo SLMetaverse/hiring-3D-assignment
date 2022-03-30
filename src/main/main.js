@@ -1,5 +1,4 @@
 import * as THREE from "https://unpkg.com/three/build/three.module.js"
-import {FirstPersonControls} from 'https://unpkg.com/three/examples/jsm/controls/FirstPersonControls.js'
 import InputController from "../input/inputController.js"
 import Room3D from "../main/Room3D.js"
 import RoomCreator from "../roomCreator/roomCreator.js"
@@ -61,7 +60,7 @@ function setup() {
 }
 
 function testInput() {
-    console.log(inputController.mouseMoveX, inputController.mouseMoveY)
+    console.log(inputController.mouseMoveX, inputController.mouseMoveY, inputController.keyUp, inputController.keyDown)
 }
 
 function animate(time) {

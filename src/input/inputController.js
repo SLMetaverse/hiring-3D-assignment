@@ -1,14 +1,35 @@
 export default class InputController {
     constructor() {
-        this.mouseMoveX = 0
-        this.mouseMoveY = 0 
+        this.#setupInputs()
         this.setupMouseMoveListener()
         this.lockPointer()
+        this.setupKeyDownListener()
+        this.setupKeyUpListener()
     }
 
     update() {
+        this.#setupInputs()
+    }
+
+    #setupInputs() {
         this.mouseMoveX = 0
         this.mouseMoveY = 0
+        this.keyDown = ''
+        this.keyUp = ''
+    }
+
+    setupKeyUpListener() {
+        let self = this
+        document.onkeyup = function (keyEvent) {
+            self.keyUp = keyEvent.key
+        }
+    }
+
+    setupKeyDownListener() {
+        let self = this
+        document.onkeydown = function (keyEvent) {
+            self.keyDown = keyEvent.key
+        }
     }
 
     setupMouseMoveListener() {
