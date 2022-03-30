@@ -1,4 +1,4 @@
-export default class InputController {
+class InputController {
     constructor() {
         this.#setupInputs()
         this.setupMouseMoveListener()
@@ -46,3 +46,5 @@ export default class InputController {
         };
     }
 }
+
+export default new InputController()
