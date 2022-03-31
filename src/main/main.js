@@ -2,6 +2,7 @@ import * as THREE from "https://unpkg.com/three/build/three.module.js"
 import FirstPersonCamera from "../camera/FirstPersonCamera.js"
 import InputController from "../input/inputController.js"
 import Room3D from "../main/Room3D.js"
+import colliders from "../physics/colliders.js"
 import RoomCreator from "../roomCreator/roomCreator.js"
 
 let scene, camera, renderer, firstPersonCamera
@@ -60,6 +61,7 @@ function setup() {
 function animate(time) {
     requestAnimationFrame(animate)
     firstPersonCamera.update()
+    colliders.checkCollisionWithCamera(firstPersonCamera)
     renderer.render(scene, camera)
     InputController.update() // update clears the input so call at last
 }

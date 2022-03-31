@@ -9,6 +9,8 @@ export default class FirstPersonCamera {
         this.xAngle = 0
         this.yAngle = 0
         this.velocity = {x: 0, z: 0}
+        this.forward = 0.0
+        this.sideways = 0.0
     }
 
     update() {
@@ -17,6 +19,7 @@ export default class FirstPersonCamera {
     }
 
     #updateRotation() {
+        // x movement of mouse gives y rotation and y movement gives x rotation
         this.yAngle -= InputController.mouseMoveX/10*Math.PI/180
         this.xAngle = clamp(this.xAngle - InputController.mouseMoveY/10*Math.PI/180, -Math.PI / 3, Math.PI / 3)
     
@@ -57,5 +60,17 @@ export default class FirstPersonCamera {
     
         this.camera.position.add(forward)
         this.camera.position.add(sideways)
+        this.camera.position.y = 50 //stop camera sliding up or down the wall
+
+        this.forward = forward
+        this.sideways = sideways
+    }
+
+    hitWallSideways() {
+        this.camera.position.sub(this.sideways)
+    }
+
+    hitwallForward() {
+        this.camera.position.sub(this.forward)
     }
 }
