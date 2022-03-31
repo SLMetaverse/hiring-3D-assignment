@@ -23,7 +23,6 @@ function makeRenderer() {
 function makeCamera() {
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 5000 )
     camera.position.set( 0, 50, 4*100 )
-    camera.rotateY( -Math.PI/2 )
 
     firstPersonCamera = new FirstPersonCamera(camera)
 }
@@ -50,12 +49,21 @@ function addLight() {
     scene.add( mainLight )
 }
 
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight
+    camera.updateProjectionMatrix()
+
+    renderer.setSize( window.innerWidth, window.innerHeight )
+}
+
 function setup() {
     makeScene()
     makeRenderer()
     makeCamera()
     addRoom()
     addLight()
+    window.addEventListener( 'resize', onWindowResize )
 }
 
 function animate(time) {
@@ -68,3 +76,4 @@ function animate(time) {
 
 setup()
 animate()
+  

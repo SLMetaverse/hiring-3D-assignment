@@ -7,7 +7,7 @@ export default class FirstPersonCamera {
     constructor(camera) {
         this.camera = camera
         this.xAngle = 0
-        this.yAngle = 0
+        this.yAngle = -Math.PI/2
         this.velocity = {x: 0, z: 0}
         this.forward = 0.0
         this.sideways = 0.0
