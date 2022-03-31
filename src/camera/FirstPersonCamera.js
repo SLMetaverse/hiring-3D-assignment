@@ -8,7 +8,7 @@ export default class FirstPersonCamera {
         this.camera = camera
         this.xAngle = 0
         this.yAngle = 0
-        this.velocity = {x: 0, y: 0}
+        this.velocity = {x: 0, z: 0}
     }
 
     update() {
@@ -34,14 +34,14 @@ export default class FirstPersonCamera {
 
     #updatePosition() {
         let speed = 1
-        if(InputController.keyDown == 'w') this.velocity.y = speed
+        if(InputController.keyDown == 'w') this.velocity.z = speed
         if(InputController.keyDown == 'a') this.velocity.x = speed
-        if(InputController.keyDown == 's') this.velocity.y = -speed
+        if(InputController.keyDown == 's') this.velocity.z = -speed
         if(InputController.keyDown == 'd') this.velocity.x = -speed
         
-        if(InputController.keyUp == 'w') this.velocity.y = 0
+        if(InputController.keyUp == 'w') this.velocity.z = 0
         if(InputController.keyUp == 'a') this.velocity.x = 0
-        if(InputController.keyUp == 's') this.velocity.y = 0
+        if(InputController.keyUp == 's') this.velocity.z = 0
         if(InputController.keyUp == 'd') this.velocity.x = 0
         
         const yQuaternion = new THREE.Quaternion()
@@ -49,7 +49,7 @@ export default class FirstPersonCamera {
     
         const forward = new THREE.Vector3(0, 0, -1)
         forward.applyQuaternion(yQuaternion)
-        forward.multiplyScalar(this.velocity.y)
+        forward.multiplyScalar(this.velocity.z)
     
         const sideways = new THREE.Vector3(-1, 0, 0)
         sideways.applyQuaternion(yQuaternion)
