@@ -4,7 +4,7 @@ Write a code that:
 
 - Create 3D rooms. Room is a cube. Must see rooms through the semi-transparent wall. Build a pattern of room as in the image below. ![Cube Image](https://github.com/SLMetaverse/hiring-3D-assignment/blob/challenge/example.jpg?raw=true)
 
-- Wall of a room must be opaque if there is no next room to traverse. 
+- Wall of a room must be opaque if there is no next room to traverse.
 
 - Move from one room to another. You are only allowed to move from one space to another space. Ex: From room 1 you have only option to move to room 2 and from room 2 only option to move either room 5 or room 3.
 
