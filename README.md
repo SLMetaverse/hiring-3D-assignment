@@ -1,6 +1,6 @@
 # 3D Code Exercise
 
-Write a code to mee the following requirements.
+Write a code to meet the following requirements.
 
 - Create 3D rooms. Room is a cube. Must see rooms through the semi-transparent wall. Build a pattern of room as in the image below. ![Cube Image](https://github.com/SLMetaverse/hiring-3D-assignment/blob/challenge/example.jpg?raw=true)
 
