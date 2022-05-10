@@ -12,6 +12,8 @@ Write a code to meet the following requirements.
 
 - Should be able to view the file in a web browser. It should probably output a file that can be loaded into HTML in 3d.  X3DOM, or VRML, or .x3d, etc.
 
+- Encouraged to implement Quaternion Rotation for extra credit.
+
 # Notes
 - [three.js](https://threejs.org) is a cross-browser JavaScript library and application programming interface used to create and display animated 3D computer graphics in a web browser using WebGL. 
 - There are lots of [examples](https://threejs.org/examples/#webgl_animation_keyframes) that can be referenced.
@@ -28,13 +30,14 @@ Write a code to meet the following requirements.
 
 4. `example.html` is one example for reference done with three.js.
 
-5. Feel free to add your own elements for extra credit but must not deviate from the requirements mentioned above.
+5. Extra Credit: If showcased understanding of Quaternion Rotation.
 
 
 ## References
 - [Pkg](https://unpkg.com/browse/three@0.138.3/)
 - [GitHub](https://github.com/mrdoob/three.js)
 - [3D transformations](https://www.cs.cornell.edu/courses/cs4620/2010fa/lectures/03transforms3d.pdf)
+- [Quaternion Rotation](https://www.youtube.com/results?search_query=quaternion+for+game+developers+)
 - https://redstapler.co/add-3d-model-to-website-threejs/
 
 - https://www.argyllcms.com/doc/3dformat.html
