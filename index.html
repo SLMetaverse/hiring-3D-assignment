@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3d Rooms in three.js | Puncoz</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <style>
+        body {
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+
+<!-- Import maps polyfill -->
+<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://unpkg.com/three/build/three.module.js"
+    }
+}
+</script>
+
+<script type="module">
+    import * as THREE        from "https://unpkg.com/three/build/three.module.js"
+    import { OrbitControls } from "https://unpkg.com/three/examples/jsm/controls/OrbitControls.js"
+    import { TextGeometry }  from "https://unpkg.com/three/examples/jsm/geometries/TextGeometry.js"
+    import { FontLoader }    from "https://unpkg.com/three/examples/jsm/loaders/FontLoader.js"
+
+    const TOP = "TOP"
+    const BOTTOM = "BOTTOM"
+    const LEFT = "LEFT"
+    const RIGHT = "RIGHT"
+    const FRONT = "FRONT"
+    const BACK = "BACK"
+
+    const createRoom = (scene, planeGeometry, roomNumber, position, noWalls = []) => {
+        if (!noWalls.includes(TOP)) {
+            const topWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide }))
+            topWall.position.set(position.x, position.y + 50, position.z + 0)
+            topWall.rotation.x = -Math.PI / 2
+            scene.add(topWall)
+        }
+
+        if (!noWalls.includes(BOTTOM)) {
+            const bottomWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.DoubleSide }))
+            bottomWall.position.set(position.x, position.y - 50, position.z + 0)
+            bottomWall.rotation.x = Math.PI / 2
+            scene.add(bottomWall)
+        }
+
+        if (!noWalls.includes(LEFT)) {
+            const leftWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide }))
+            leftWall.position.set(position.x - 50, position.y + 0, position.z + 0)
+            leftWall.rotation.y = Math.PI / 2
+            scene.add(leftWall)
+        }
+
+        if (!noWalls.includes(RIGHT)) {
+            const rightWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0x0000ff, side: THREE.DoubleSide }))
+            rightWall.position.set(position.x + 50, position.y + 0, position.z + 0)
+            rightWall.rotation.y = -Math.PI / 2
+            scene.add(rightWall)
+        }
+
+        if (!noWalls.includes(FRONT)) {
+            const frontWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0xff00ff, side: THREE.DoubleSide }))
+            frontWall.position.set(position.x + 0, position.y + 0, position.z - 50)
+            scene.add(frontWall)
+        }
+
+        if (!noWalls.includes(BACK)) {
+            const backWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0x00ffff, side: THREE.DoubleSide }))
+            backWall.position.set(position.x + 0, position.y + 0, position.z + 50)
+            scene.add(backWall)
+        }
+
+        const loader = new FontLoader()
+        loader.load("https://threejs.org/examples/fonts/optimer_regular.typeface.json", function(font) {
+            const geometry = new TextGeometry(roomNumber.toString(), {
+                font: font,
+                size: 40,
+                height: 0.5,
+            })
+            geometry.center()
+            const material = new THREE.MeshLambertMaterial({
+                color: 0x686868,
+            })
+            const mesh = new THREE.Mesh(geometry, material)
+            mesh.position.x = position.x
+            mesh.position.y = position.y
+            mesh.position.z = position.z
+
+            mesh.name = "bhText"
+            scene.add(mesh)
+
+        })
+    }
+
+    const init = () => {
+        const container = document.getElementById("container")
+
+        // renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true })
+        renderer.setPixelRatio(window.devicePixelRatio)
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        container.appendChild(renderer.domElement)
+        renderer.localClippingEnabled = true
+
+        // scene
+        const scene = new THREE.Scene()
+
+        // camera
+        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 5000)
+        camera.position.set(500, 700, 500)
+        camera.useQuaternion = true
+
+        // camera controls
+        const cameraControls = new OrbitControls(camera, renderer.domElement)
+        cameraControls.target.set(0, 40, 0)
+        cameraControls.maxDistance = 500
+        cameraControls.minDistance = 10
+        cameraControls.update()
+
+        const planeGeometry = new THREE.PlaneGeometry(100, 100)
+
+        createRoom(scene, planeGeometry, 1, { x: 0, y: 0, z: 0 }, [TOP, FRONT])
+        createRoom(scene, planeGeometry, 2, { x: 0, y: 0, z: -100 }, [TOP, LEFT, RIGHT, BACK])
+        createRoom(scene, planeGeometry, 3, { x: 100, y: 0, z: -100 }, [TOP, LEFT, FRONT])
+        createRoom(scene, planeGeometry, 4, { x: 100, y: 0, z: -200 }, [TOP, BACK])
+        createRoom(scene, planeGeometry, 5, { x: -100, y: 0, z: -100 }, [TOP, LEFT, RIGHT])
+        createRoom(scene, planeGeometry, 6, { x: -200, y: 0, z: -100 }, [TOP, LEFT, RIGHT])
+        createRoom(scene, planeGeometry, 7, { x: -300, y: 0, z: -100 }, [TOP, LEFT, RIGHT])
+        createRoom(scene, planeGeometry, 8, { x: -400, y: 0, z: -100 }, [TOP, RIGHT, FRONT])
+        createRoom(scene, planeGeometry, 9, { x: -400, y: 0, z: -200 }, [TOP, FRONT, BACK])
+        createRoom(scene, planeGeometry, 10, { x: -400, y: 0, z: -300 }, [TOP, BACK])
+
+        // lights
+        const mainLight = new THREE.PointLight(0xcccccc, 1.5, 250)
+        mainLight.position.y = 60
+        scene.add(mainLight)
+
+        const greenLight = new THREE.PointLight(0x00ff00, 0.25, 1000)
+        greenLight.position.set(550, 50, 0)
+        scene.add(greenLight)
+
+        const redLight = new THREE.PointLight(0xff0000, 0.25, 1000)
+        redLight.position.set(-550, 50, 0)
+        scene.add(redLight)
+
+        const blueLight = new THREE.PointLight(0x7f7fff, 0.25, 1000)
+        blueLight.position.set(0, 50, 550)
+        scene.add(blueLight)
+
+        const onWindowResize = () => {
+            camera.aspect = window.innerWidth / window.innerHeight
+            camera.updateProjectionMatrix()
+
+            renderer.setSize(window.innerWidth, window.innerHeight)
+        }
+        window.addEventListener("resize", onWindowResize)
+
+        return {
+            scene,
+            camera,
+            renderer,
+        }
+    }
+
+    const { scene, camera, renderer } = init()
+
+    const animate = () => {
+        requestAnimationFrame(animate)
+
+        // render the main scene
+        renderer.render(scene, camera)
+    }
+    animate()
+</script>
+</body>
+</html>
