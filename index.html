@@ -160,7 +160,7 @@
         const cameraControls = new OrbitControls(camera, renderer.domElement)
         cameraControls.target.set(0, 40, 0)
         cameraControls.maxDistance = 500
-        cameraControls.minDistance = 10
+        cameraControls.minDistance = 200
         cameraControls.update()
 
         createRooms(scene)
