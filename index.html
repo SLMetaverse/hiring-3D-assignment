@@ -186,8 +186,13 @@
 
     const { scene, camera, renderer } = init()
 
+    const quaternion = new THREE.Quaternion(...Object.values(roomInitialPosition), 1)
+    quaternion.setFromAxisAngle(new THREE.Vector3(0, 0.1, 0), Math.PI / 180)
+
     const animate = () => {
         requestAnimationFrame(animate)
+
+        scene.applyQuaternion(quaternion)
 
         // render the main scene
         renderer.render(scene, camera)
