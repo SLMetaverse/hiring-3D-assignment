@@ -33,57 +33,22 @@
 
     const TOP = "TOP"
     const BOTTOM = "BOTTOM"
-    const LEFT = "LEFT"
-    const RIGHT = "RIGHT"
-    const FRONT = "FRONT"
-    const BACK = "BACK"
+    const LEFT = "L"
+    const RIGHT = "R"
+    const FRONT = "F"
+    const BACK = "B"
 
-    const createRoom = (scene, planeGeometry, roomNumber, position, noWalls = []) => {
-        if (!noWalls.includes(TOP)) {
-            const topWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide }))
-            topWall.position.set(position.x, position.y + 50, position.z + 0)
-            topWall.rotation.x = -Math.PI / 2
-            scene.add(topWall)
-        }
+    const roomSize = 70
+    const roomPlan = ["E:F", "F:LR:B", "FR:F:L", "FRF::B", "FL:L:R", "FLL:L:R", "FLLL:L:R", "FLLLL:F:R", "FLLLLF:F:B", "FLLLLFF::B"]
+    const roomInitialPosition = { x: 100, y: 100, z: 100 }
+    const openTop = true
 
-        if (!noWalls.includes(BOTTOM)) {
-            const bottomWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0xff0000, side: THREE.DoubleSide }))
-            bottomWall.position.set(position.x, position.y - 50, position.z + 0)
-            bottomWall.rotation.x = Math.PI / 2
-            scene.add(bottomWall)
-        }
-
-        if (!noWalls.includes(LEFT)) {
-            const leftWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide }))
-            leftWall.position.set(position.x - 50, position.y + 0, position.z + 0)
-            leftWall.rotation.y = Math.PI / 2
-            scene.add(leftWall)
-        }
-
-        if (!noWalls.includes(RIGHT)) {
-            const rightWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0x0000ff, side: THREE.DoubleSide }))
-            rightWall.position.set(position.x + 50, position.y + 0, position.z + 0)
-            rightWall.rotation.y = -Math.PI / 2
-            scene.add(rightWall)
-        }
-
-        if (!noWalls.includes(FRONT)) {
-            const frontWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0xff00ff, side: THREE.DoubleSide }))
-            frontWall.position.set(position.x + 0, position.y + 0, position.z - 50)
-            scene.add(frontWall)
-        }
-
-        if (!noWalls.includes(BACK)) {
-            const backWall = new THREE.Mesh(planeGeometry, new THREE.MeshBasicMaterial({ color: 0x00ffff, side: THREE.DoubleSide }))
-            backWall.position.set(position.x + 0, position.y + 0, position.z + 50)
-            scene.add(backWall)
-        }
-
+    const printRoomNumber = (scene, roomNumber, position) => {
         const loader = new FontLoader()
         loader.load("https://threejs.org/examples/fonts/optimer_regular.typeface.json", function(font) {
             const geometry = new TextGeometry(roomNumber.toString(), {
                 font: font,
-                size: 40,
+                size: 0.4 * roomSize,
                 height: 0.5,
             })
             geometry.center()
@@ -98,6 +63,78 @@
             mesh.name = "bhText"
             scene.add(mesh)
 
+        })
+    }
+
+    const calculatePosition = (position, direction, step) => {
+        const dir = [TOP, BOTTOM, FRONT, BACK, LEFT, RIGHT].indexOf(direction)
+        const axis = ["y", "y", "z", "z", "x", "x"][dir]
+        const operator = [1, -1, -1, 1, -1, 1][dir]
+
+        return { ...position, [axis]: position[axis] + operator * step }
+    }
+
+    const calculateRotation = (direction) => {
+        const dir = [TOP, BOTTOM, FRONT, BACK, LEFT, RIGHT].indexOf(direction)
+        const axis = ["x", "x", "z", "z", "y", "y"][dir]
+        const operator = [-1, 1, 0, 0, 1, -1][dir]
+
+        return {
+            axis,
+            angle: operator * Math.PI / 2,
+        }
+    }
+
+    const renderRoomWalls = (scene, planeGeometry, position, color, openSides = "", noWalls = "") => {
+        const openSidesArray = openSides.split("")
+        const noWallsArray = noWalls.split("")
+
+        ;[TOP, BOTTOM, FRONT, BACK, LEFT, RIGHT].forEach(side => {
+            if (openTop && side === TOP) {
+                return
+            }
+
+            if (noWallsArray.includes(side)) {
+                return
+            }
+
+            const wallPosition = calculatePosition(position, side, roomSize / 2)
+            const { axis: rAxis, angle: rAngle } = calculateRotation(side)
+
+            const wallProperties = { color, side: THREE.DoubleSide }
+            if (openSidesArray.includes(side)) {
+                wallProperties.transparent = true
+                wallProperties.opacity = 0.1
+            }
+
+            const wall = new THREE.Mesh(planeGeometry, new THREE.MeshPhongMaterial(wallProperties))
+            wall.position.set(wallPosition.x, wallPosition.y, wallPosition.z)
+            wall.rotation[rAxis] = rAngle
+            scene.add(wall)
+        })
+    }
+
+    const createRoom = (scene, planeGeometry, plan, index) => {
+        const [pos, openSides, noWalls] = plan.split(":")
+
+        const color = new THREE.Color(0xffffff).setHex(Math.random() * 0xffffff)
+
+        const position = pos.split("").reduce((p, d) => ({ ...p, ...calculatePosition(p, d, roomSize) }), roomInitialPosition)
+
+        renderRoomWalls(scene, planeGeometry, position, color, openSides, noWalls)
+
+        printRoomNumber(scene, index + 1, position)
+
+        const light = new THREE.PointLight(color, 1, 150)
+        light.position.set(position.x, position.y, position.z)
+        scene.add(light)
+    }
+
+    const createRooms = (scene) => {
+        const planeGeometry = new THREE.PlaneGeometry(roomSize, roomSize)
+
+        roomPlan.forEach((plan, index) => {
+            createRoom(scene, planeGeometry, plan, index)
         })
     }
 
@@ -126,35 +163,11 @@
         cameraControls.minDistance = 10
         cameraControls.update()
 
-        const planeGeometry = new THREE.PlaneGeometry(100, 100)
+        createRooms(scene)
 
-        createRoom(scene, planeGeometry, 1, { x: 0, y: 0, z: 0 }, [TOP, FRONT])
-        createRoom(scene, planeGeometry, 2, { x: 0, y: 0, z: -100 }, [TOP, LEFT, RIGHT, BACK])
-        createRoom(scene, planeGeometry, 3, { x: 100, y: 0, z: -100 }, [TOP, LEFT, FRONT])
-        createRoom(scene, planeGeometry, 4, { x: 100, y: 0, z: -200 }, [TOP, BACK])
-        createRoom(scene, planeGeometry, 5, { x: -100, y: 0, z: -100 }, [TOP, LEFT, RIGHT])
-        createRoom(scene, planeGeometry, 6, { x: -200, y: 0, z: -100 }, [TOP, LEFT, RIGHT])
-        createRoom(scene, planeGeometry, 7, { x: -300, y: 0, z: -100 }, [TOP, LEFT, RIGHT])
-        createRoom(scene, planeGeometry, 8, { x: -400, y: 0, z: -100 }, [TOP, RIGHT, FRONT])
-        createRoom(scene, planeGeometry, 9, { x: -400, y: 0, z: -200 }, [TOP, FRONT, BACK])
-        createRoom(scene, planeGeometry, 10, { x: -400, y: 0, z: -300 }, [TOP, BACK])
-
-        // lights
-        const mainLight = new THREE.PointLight(0xcccccc, 1.5, 250)
-        mainLight.position.y = 60
+        // main light
+        const mainLight = new THREE.AmbientLight(0x404040, 1.5, 250) // soft white light
         scene.add(mainLight)
-
-        const greenLight = new THREE.PointLight(0x00ff00, 0.25, 1000)
-        greenLight.position.set(550, 50, 0)
-        scene.add(greenLight)
-
-        const redLight = new THREE.PointLight(0xff0000, 0.25, 1000)
-        redLight.position.set(-550, 50, 0)
-        scene.add(redLight)
-
-        const blueLight = new THREE.PointLight(0x7f7fff, 0.25, 1000)
-        blueLight.position.set(0, 50, 550)
-        scene.add(blueLight)
 
         const onWindowResize = () => {
             camera.aspect = window.innerWidth / window.innerHeight
