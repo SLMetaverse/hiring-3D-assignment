@@ -1,7 +1,6 @@
 <template>
     <div>
         <ThreeDScene msg="Hello"/>
-        <!-- <ThreeDSceneBK msg="HelloBK"/> -->
     </div>
 </template>
 

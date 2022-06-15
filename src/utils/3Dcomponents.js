@@ -1,4 +1,4 @@
-import { WebGLRenderer, Color, Scene, PerspectiveCamera, BoxBufferGeometry, Mesh, MeshStandardMaterial, DirectionalLight } from 'three'
+import { WebGLRenderer, Color, Scene, PerspectiveCamera, BoxBufferGeometry, Mesh, MeshStandardMaterial, MeshBasicMaterial, DirectionalLight, PlaneGeometry, DoubleSide } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 let getRenderer = () => {
@@ -14,14 +14,14 @@ let getScene = (color='black') => {
     return scene
 }
 
-let getPerspectiveCamera = (fov, aspect, near, far, z) => {
+let getPerspectiveCamera = (fov, aspect, near, far, x, y, z) => {
     const camera = new PerspectiveCamera(
         fov,
         aspect,
         near,
         far
     )
-    camera.position.set(0, 0, z)
+    camera.position.set(x, y, z)
     return camera
 }
 
@@ -31,12 +31,12 @@ let getCube = (width, height, depth) => {
     // create a Mesh containing the geometry and material
     const cube = new Mesh(geometry, material)
     cube.rotation.set(-0.5, -0.1, 0.8)
-    cube.tick = () => {
-      // increase the cube's rotation each frame
-      cube.rotation.z += 0.01
-      cube.rotation.x += 0.01
-      cube.rotation.y += 0.01
-    }
+    // cube.tick = () => {
+    //   // increase the cube's rotation each frame
+    //   cube.rotation.z += 0.01
+    //   cube.rotation.x += 0.01
+    //   cube.rotation.y += 0.01
+    // }
     return cube
 }
 
@@ -55,6 +55,14 @@ let getOrbitControl = (camera, canvas) => {
     return controls
 }
 
+let getPlane = (color, transparent, width) => {
+    const planeGeo = new PlaneGeometry(width, width);
+    const material = new MeshBasicMaterial( {color: color, side: DoubleSide, transparent: transparent, opacity: transparent ? 0.1 : 1} )
+    // const material = new MeshPhongMaterial( {color: 0x333333} )
+    const plane = new Mesh( planeGeo, material )
+    return plane
+}
+
 
 export {
     getRenderer,
@@ -62,5 +70,6 @@ export {
     getPerspectiveCamera,
     getCube,
     getDirectLight,
-    getOrbitControl
+    getOrbitControl,
+    getPlane
 }
