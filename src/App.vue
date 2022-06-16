@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1>3D Assignment</h1>
         <ThreeDScene msg="Hello"/>
     </div>
 </template>

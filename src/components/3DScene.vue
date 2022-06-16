@@ -87,7 +87,7 @@ export default {
     },
     createRooms () {
       let xCoordinate = 0
-      let yCoordinate = -5
+      let yCoordinate = -3
       let zCoordinate = 0
       for(var i = 0; i < this.matrix.length; i++) {
         var cube = this.matrix[i];
