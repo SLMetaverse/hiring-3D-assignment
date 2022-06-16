@@ -57,8 +57,14 @@ let getOrbitControl = (camera, canvas) => {
 
 let getPlane = (color, transparent, width) => {
     const planeGeo = new PlaneGeometry(width, width);
-    const material = new MeshBasicMaterial( {color: color, side: DoubleSide, transparent: transparent, opacity: transparent ? 0.1 : 1} )
-    // const material = new MeshPhongMaterial( {color: 0x333333} )
+    let obj = {
+        color: color, transparent: transparent, opacity: transparent ? 0.2 : 1
+    }
+
+    if (!transparent) {
+        obj.side = DoubleSide
+    }
+    const material = new MeshBasicMaterial( obj )
     const plane = new Mesh( planeGeo, material )
     return plane
 }
