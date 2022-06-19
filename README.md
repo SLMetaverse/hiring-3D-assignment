@@ -45,3 +45,8 @@ Write a code to meet the following requirements.
 - https://www.vectary.com/3d-modeling-blog/3d-web-embed-guide
 
 - https://medium.com/samsung-internet-dev/adding-3d-models-to-your-website-d374a8cbbadd
+
+
+# Run in Local
+- npm install
+- npm run serve
