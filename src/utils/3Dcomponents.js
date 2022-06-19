@@ -1,4 +1,4 @@
-import { WebGLRenderer, Color, Scene, PerspectiveCamera, BoxBufferGeometry, Mesh, MeshStandardMaterial, MeshBasicMaterial, DirectionalLight, PlaneGeometry, DoubleSide } from 'three'
+import { WebGLRenderer, Color, Scene, PerspectiveCamera, BoxBufferGeometry, Mesh, MeshStandardMaterial, MeshBasicMaterial, DirectionalLight, PlaneGeometry, DoubleSide, Quaternion, Vector3, Group } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 let getRenderer = () => {
@@ -51,22 +51,49 @@ let getOrbitControl = (camera, canvas) => {
     controls.enableDamping = true
     // controls.autoRotate = true;
     // controls.autoRotateSpeed = 1;
-    controls.tick = () => controls.update()
     return controls
 }
 
 let getPlane = (color, transparent, width) => {
     const planeGeo = new PlaneGeometry(width, width);
     let obj = {
-        color: color, transparent: transparent, opacity: transparent ? 0.2 : 1
+        color: color, transparent: transparent, opacity: transparent ? 0.3 : 1, side: DoubleSide
     }
 
-    if (!transparent) {
-        obj.side = DoubleSide
+    if (transparent) {
+        obj.depthWrite = false
     }
+    
     const material = new MeshBasicMaterial( obj )
     const plane = new Mesh( planeGeo, material )
     return plane
+}
+
+let getQuaternion = () => {
+    var quaternion = new Quaternion()
+    quaternion.setFromAxisAngle( new Vector3( 0,.25,0 ), Math.PI / 180 )
+    return quaternion
+}
+
+let toRad = (degree) => {
+    return degree * (Math.PI/180);
+}
+
+const ANGULAR_SPEED = 0.75
+// const ANGULAR_SPEED = 0.05
+const QuaternionMovements = {
+    ArrowUp:    new Quaternion().setFromAxisAngle(new Vector3(1,0,0),toRad(ANGULAR_SPEED)),
+    ArrowDown:  new Quaternion().setFromAxisAngle(new Vector3(1,0,0),toRad(-ANGULAR_SPEED*6)),
+    ArrowLeft:  new Quaternion().setFromAxisAngle(new Vector3(0,1,0),toRad(-ANGULAR_SPEED*6)),
+    ArrowRight: new Quaternion().setFromAxisAngle(new Vector3(0,1,0),toRad(ANGULAR_SPEED*6))
+}
+
+let getQuaternionMovements = (direction) => {
+    return QuaternionMovements[direction]
+}
+
+let getGroup = () => {
+    return new Group()
 }
 
 
@@ -77,5 +104,8 @@ export {
     getCube,
     getDirectLight,
     getOrbitControl,
-    getPlane
+    getPlane,
+    getQuaternion,
+    getQuaternionMovements,
+    getGroup
 }

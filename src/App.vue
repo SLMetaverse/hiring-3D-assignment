@@ -1,19 +1,20 @@
 <template>
     <div>
-        <h1>3D Assignment</h1>
-        <ThreeDScene msg="Hello"/>
+        <p style="margin:1px">Press ArrowKeys for Quaternion Rotation of the room and use mouse to rotate camera.</p>
+        <QuaternionRotation/>
+        <!-- <ThreeDScene/> -->
     </div>
 </template>
 
 <script>
-// import ThreeDSceneBK from '@/components/3DSceneBK'
-import ThreeDScene from '@/components/3DScene'
+// import ThreeDScene from '@/components/3DScene'
+import QuaternionRotation from '@/components/QuaternionRotation.vue'
 
 export default {
   name: 'App',
   components: {
-    ThreeDScene,
-    // ThreeDSceneBK
+    QuaternionRotation,
+    // ThreeDScene,
   }
 }
 </script>
@@ -25,6 +26,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
