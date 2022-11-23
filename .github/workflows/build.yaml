@@ -10,8 +10,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       # Upload to Drive
-      - name: Upload README.md to Google Drive
+      - name: Upload public folder to Google Drive
         uses: Jodebu/upload-to-drive@master
+        id: driveUpload
         with:
           target: README.md
           credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
