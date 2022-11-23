@@ -11,9 +11,14 @@ jobs:
         uses: actions/checkout@v2
       # Upload to Drive
       - name: Upload public folder to Google Drive
-        uses: Jodebu/upload-to-drive@master
-        id: driveUpload
+        # uses: Jodebu/upload-to-drive@master
+        # id: driveUpload
+        # with:
+        #   target: README.md
+        #   credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
+        #   folder: 1nuEl638ycrSlfm6uBSez6IWoCH5aGZF1
+        uses: adityak74/google-drive-upload-git-action@main
         with:
-          target: README.md
           credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-          folder: 1nuEl638ycrSlfm6uBSez6IWoCH5aGZF1
+          filename: README.md
+          folderId: 1nuEl638ycrSlfm6uBSez6IWoCH5aGZF1
