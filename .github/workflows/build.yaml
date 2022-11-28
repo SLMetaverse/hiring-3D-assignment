@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout
+      - name: Get current time
+        uses: josStorer/get-current-time@v2.0.2
       - name: Checkout repository
         uses: actions/checkout@v2
       - uses: vimtor/action-zip@v1
