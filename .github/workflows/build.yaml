@@ -32,5 +32,4 @@ jobs:
         with:
           credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           filename: builds-${{ steps.date.outputs.date }}.zip
-          overwrite: true
           folderId: 1nuEl638ycrSlfm6uBSez6IWoCH5aGZF1
