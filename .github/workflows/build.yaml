@@ -25,5 +25,5 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-          filename: README.md
+          filename: builds.zip
           folderId: 1nuEl638ycrSlfm6uBSez6IWoCH5aGZF1
