@@ -15,6 +15,9 @@ jobs:
           utcOffset: "+05:45"
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - uses: vimtor/action-zip@v1
         with:
           files: .github/workflows/
