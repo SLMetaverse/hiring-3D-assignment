@@ -9,6 +9,11 @@ jobs:
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
+      - uses: vimtor/action-zip@v1
+        with:
+          files: .github/workflows/*
+          recursive: false
+          dest: builds.zip
       # Upload to Drive
       - name: Upload public folder to Google Drive
         # uses: Jodebu/upload-to-drive@master
