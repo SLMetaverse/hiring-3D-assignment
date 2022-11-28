@@ -7,12 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout
-      - name: Get current time
-        uses: josStorer/get-current-time@v2.0.2
-        id: current-time
-        with:
-          format: YYYYMMDD-HH
-          utcOffset: "+05:45"
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Get current date
@@ -35,4 +29,5 @@ jobs:
         with:
           credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
           filename: builds-${{ steps.date.outputs.date }}.zip
+          overwrite: true
           folderId: 1nuEl638ycrSlfm6uBSez6IWoCH5aGZF1
