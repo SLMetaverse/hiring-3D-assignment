@@ -12,7 +12,7 @@ jobs:
       - uses: vimtor/action-zip@v1
         with:
           files: .github/workflows/
-          recursive: false
+          recursive: true
           dest: builds.zip
       # Upload to Drive
       - name: Upload public folder to Google Drive
