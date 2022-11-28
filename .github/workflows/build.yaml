@@ -13,7 +13,7 @@ jobs:
         with:
           files: .github/workflows/
           recursive: true
-          dest: builds.zip
+          dest: builds-${{ steps.date.outputs.date }}.zip
       # Upload to Drive
       - name: Upload public folder to Google Drive
         # uses: Jodebu/upload-to-drive@master
@@ -25,5 +25,6 @@ jobs:
         uses: adityak74/google-drive-upload-git-action@main
         with:
           credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT }}
-          filename: builds.zip
+          filename: builds-${{ steps.date.outputs.date }}.zip
+          overwrite: true
           folderId: 1nuEl638ycrSlfm6uBSez6IWoCH5aGZF1
