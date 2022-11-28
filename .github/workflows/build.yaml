@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v2
       - uses: vimtor/action-zip@v1
         with:
-          files: .github/workflows/*
+          files: .github/workflows/
           recursive: false
           dest: builds.zip
       # Upload to Drive
